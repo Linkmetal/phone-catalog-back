@@ -1,6 +1,7 @@
 import { PhoneEntity, PhoneRepository } from './phones.repository';
 
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
+import { UpdatePhoneDTO } from 'src/phones/dtos/update-phone.dto';
 
 export const phoneFixture: PhoneEntity = {
   id: '6246f580bfca641423e5710f',
@@ -16,6 +17,20 @@ export const phoneFixture: PhoneEntity = {
 };
 
 export class PhoneRepositoryFake implements PhoneRepository {
+  findOneAndUpdate(
+    id: string,
+    updatePhoneDto: UpdatePhoneDTO,
+  ): Promise<PhoneEntity | null> {
+    if (id !== phoneFixture.id) return Promise.resolve(null);
+    return Promise.resolve(
+      PhoneEntity.fromPrimitives({ ...updatePhoneDto, _id: phoneFixture.id }),
+    );
+  }
+
+  findOne(id: string): Promise<PhoneEntity | null> {
+    if (id !== phoneFixture.id) return Promise.resolve(null);
+    return Promise.resolve(phoneFixture);
+  }
   async findAll() {
     return Promise.resolve([{ ...phoneFixture }]);
   }

@@ -5,6 +5,7 @@ import {
   PhoneRepository,
   PHONE_REPOSITORY_TOKEN,
 } from './phones.repository';
+import { UpdatePhoneDTO } from 'src/phones/dtos/update-phone.dto';
 
 @Injectable()
 export class PhonesService {
@@ -12,8 +13,23 @@ export class PhonesService {
     @Inject(PHONE_REPOSITORY_TOKEN) private phoneRepository: PhoneRepository,
   ) {}
 
-  async create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity> {
-    // const duplicatedEntry = this.phoneRepository.findOne({name: createPhoneDto.name})
+  async findOne(id: string): Promise<PhoneEntity | null> {
+    return await this.phoneRepository.findOne(id);
+  }
+
+  async findOneAndUpdate(
+    id: string,
+    update: UpdatePhoneDTO,
+  ): Promise<PhoneEntity | null> {
+    return await this.phoneRepository.findOneAndUpdate(id, update);
+  }
+
+  async create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity | null> {
+    const duplicatedEntry = await this.phoneRepository.findOne(
+      createPhoneDto.name,
+    );
+
+    if (duplicatedEntry) return null;
 
     return await this.phoneRepository.create(createPhoneDto);
   }

@@ -1,4 +1,5 @@
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
+import { UpdatePhoneDTO } from 'src/phones/dtos/update-phone.dto';
 
 export class PhoneEntity {
   constructor(
@@ -42,8 +43,13 @@ export class PhoneEntity {
 }
 
 export interface PhoneRepository {
-  findAll(): Promise<PhoneEntity[]>;
   create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity>;
+  findAll(): Promise<PhoneEntity[]>;
+  findOne(id: string): Promise<PhoneEntity | null>;
+  findOneAndUpdate(
+    id: string,
+    updatePhoneDto: UpdatePhoneDTO,
+  ): Promise<PhoneEntity | null>;
 }
 
 export const PHONE_REPOSITORY_TOKEN = 'PhoneRepository';

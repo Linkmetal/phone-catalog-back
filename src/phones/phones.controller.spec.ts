@@ -32,7 +32,7 @@ describe('PhonesController', () => {
     it('should return an array of cats', async () => {
       const result = [phoneFixture];
 
-      expect(await controller.findAll()).toEqual(result);
+      expect(await controller.getPhoneList()).toEqual(result);
     });
   });
 
