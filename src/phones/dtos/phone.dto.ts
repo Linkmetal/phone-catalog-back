@@ -1,8 +1,14 @@
 import { Expose, plainToClass } from 'class-transformer';
 
 import { ApiProperty } from '@nestjs/swagger';
+import { IsMongoId } from 'class-validator';
 import { PhoneEntity } from '../phones.repository';
 
+export class PhoneIdQueryDTO {
+  @ApiProperty()
+  @IsMongoId()
+  id: string;
+}
 export class PhoneDTO {
   @ApiProperty()
   @Expose()

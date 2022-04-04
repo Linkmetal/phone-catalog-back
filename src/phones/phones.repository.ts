@@ -1,5 +1,5 @@
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
-import { UpdatePhoneDTO } from 'src/phones/dtos/update-phone.dto';
+import { UpdatePhoneDTO } from './dtos/update-phone.dto';
 
 export class PhoneEntity {
   constructor(
@@ -42,10 +42,19 @@ export class PhoneEntity {
   }
 }
 
+export type PhoneFilters = {
+  name?: string;
+  manufacturer?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  ram?: string;
+};
+
 export interface PhoneRepository {
   create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity>;
-  findAll(): Promise<PhoneEntity[]>;
+  findAll(filters?: PhoneFilters): Promise<PhoneEntity[]>;
   findOne(id: string): Promise<PhoneEntity | null>;
+  findOneByName(name: string): Promise<PhoneEntity | null>;
   findOneAndUpdate(
     id: string,
     updatePhoneDto: UpdatePhoneDTO,

@@ -6,15 +6,13 @@ import {
   Param,
   Post,
   Put,
-  Res,
 } from '@nestjs/common';
 
 import { ApiNotFoundResponse, ApiResponse } from '@nestjs/swagger';
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
-import { PhoneDTO } from './dtos/phone.dto';
+import { PhoneDTO, PhoneIdQueryDTO } from './dtos/phone.dto';
 import { PhonesService } from './phones.service';
-import { Response } from 'express';
-import { UpdatePhoneDTO } from 'src/phones/dtos/update-phone.dto';
+import { UpdatePhoneDTO } from './dtos/update-phone.dto';
 
 @Controller('/api/v1/phones')
 export class PhonesController {
@@ -44,16 +42,8 @@ export class PhonesController {
     description: 'NOT FOUND',
   })
   @Get(':id')
-  async getPhoneDetails(
-    @Param('id') id: string,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const result = await this.phoneService.findOne(id);
-
-    if (!result) {
-      res.status(HttpStatus.NOT_FOUND);
-      return null;
-    }
+  async getPhoneDetails(@Param() params: PhoneIdQueryDTO) {
+    const result = await this.phoneService.findOne(params.id);
 
     return PhoneDTO.fromEntity(result);
   }
@@ -64,15 +54,10 @@ export class PhonesController {
     description: 'Create phone',
   })
   @Post('')
-  async createPhone(@Body() body: CreatePhoneDTO, @Res() res: Response) {
+  async createPhone(@Body() body: CreatePhoneDTO) {
     const result = await this.phoneService.create(body);
 
-    if (!result) {
-      res.status(HttpStatus.BAD_REQUEST);
-      return res.json({ result: 'NOT CREATED' });
-    }
-
-    return res.json(PhoneDTO.fromEntity(result));
+    return PhoneDTO.fromEntity(result);
   }
 
   @ApiResponse({
@@ -82,17 +67,11 @@ export class PhonesController {
   })
   @Put(':id')
   async updatePhone(
+    @Param() params: PhoneIdQueryDTO,
     @Body() body: UpdatePhoneDTO,
-    @Param('id') id: string,
-    @Res() res: Response,
   ) {
-    const result = await this.phoneService.findOneAndUpdate(id, body);
+    const result = await this.phoneService.findOneAndUpdate(params.id, body);
 
-    if (!result) {
-      res.status(HttpStatus.BAD_REQUEST);
-      return res.json({ result: 'NOT UPDATED' });
-    }
-
-    return res.json(PhoneDTO.fromEntity(result));
+    return PhoneDTO.fromEntity(result);
   }
 }

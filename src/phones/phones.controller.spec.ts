@@ -2,7 +2,7 @@ import { PHONE_REPOSITORY_TOKEN, PhoneEntity } from './phones.repository';
 import { PhoneRepositoryFake, phoneFixture } from './phones.repository.fake';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { CreatePhoneDTO } from 'src/phones/dtos/create-phone.dto';
+import { CreatePhoneDTO } from './dtos/create-phone.dto';
 import { PhonesController } from './phones.controller';
 import { PhonesService } from './phones.service';
 
@@ -28,8 +28,16 @@ describe('PhonesController', () => {
     expect(controller).toBeDefined();
   });
 
+  describe('findOne', () => {
+    it('should return a phone matching the id passed as param', async () => {
+      expect(await controller.getPhoneDetails({ id: phoneFixture.id })).toEqual(
+        phoneFixture,
+      );
+    });
+  });
+
   describe('findAll', () => {
-    it('should return an array of cats', async () => {
+    it('should return an array of phones', async () => {
       const result = [phoneFixture];
 
       expect(await controller.getPhoneList()).toEqual(result);
@@ -55,6 +63,30 @@ describe('PhonesController', () => {
       });
 
       expect(await controller.createPhone(phoneToCreate)).toEqual(result);
+    });
+  });
+
+  describe('update', () => {
+    it('should return the updated phone', async () => {
+      const phoneUpdate: CreatePhoneDTO = {
+        name: 'a',
+        manufacturer: 'a',
+        description: 'a',
+        color: 'a',
+        price: 1,
+        imageFileName: 'a',
+        screen: 'a',
+        processor: 'a',
+        ram: 'a',
+      };
+      const result = PhoneEntity.fromPrimitives({
+        ...phoneUpdate,
+        _id: phoneFixture.id,
+      });
+
+      expect(
+        await controller.updatePhone({ id: phoneFixture.id }, phoneUpdate),
+      ).toEqual(result);
     });
   });
 });
