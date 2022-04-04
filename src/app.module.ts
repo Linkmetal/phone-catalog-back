@@ -1,5 +1,3 @@
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PhonesModule } from './phones/phones.module';
@@ -9,7 +7,7 @@ const dbConnectionUri = `mongodb+srv://${config.db.mongodb.user}:${config.db.mon
 
 @Module({
   imports: [MongooseModule.forRoot(dbConnectionUri), PhonesModule],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
