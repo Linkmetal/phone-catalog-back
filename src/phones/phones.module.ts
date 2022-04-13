@@ -1,5 +1,6 @@
 import { PhoneCollectionName, PhoneSchema } from './schemas/phone.schema';
 
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PHONE_REPOSITORY_TOKEN } from './phones.repository';
@@ -12,6 +13,7 @@ import { PhonesService } from './phones.service';
     MongooseModule.forFeature([
       { name: PhoneCollectionName, schema: PhoneSchema },
     ]),
+    CloudinaryModule,
   ],
   controllers: [PhonesController],
   providers: [

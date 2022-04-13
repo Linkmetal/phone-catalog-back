@@ -7,6 +7,8 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { ApiNotFoundResponse, ApiResponse } from '@nestjs/swagger';
@@ -15,6 +17,7 @@ import { PhoneDTO, PhoneIdQueryDTO } from './dtos/phone.dto';
 import { PhonesService } from './phones.service';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
 import { PhoneFilters } from 'src/phones/phones.repository';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('/api/v1/phones')
 export class PhonesController {
@@ -60,6 +63,20 @@ export class PhonesController {
     const result = await this.phoneService.create(body);
 
     return PhoneDTO.fromEntity(result);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Upload phone immge',
+  })
+  @Post(':id/image')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadPhoneImage(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const result = await this.phoneService.uploadImage(file, id);
+    return result;
   }
 
   @ApiResponse({

@@ -1,5 +1,11 @@
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import {
   PhoneEntity,
   PhoneFilters,
@@ -7,11 +13,13 @@ import {
   PHONE_REPOSITORY_TOKEN,
 } from './phones.repository';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class PhonesService {
   constructor(
     @Inject(PHONE_REPOSITORY_TOKEN) private phoneRepository: PhoneRepository,
+    private cloudinary: CloudinaryService,
   ) {}
 
   async findOne(id: string): Promise<PhoneEntity> {
@@ -60,7 +68,25 @@ export class PhonesService {
     return result;
   }
 
-  findAll(filters?: PhoneFilters) {
-    return this.phoneRepository.findAll(filters);
+  async findAll(filters?: PhoneFilters) {
+    return await this.phoneRepository.findAll(filters);
+  }
+
+  async uploadImage(file: Express.Multer.File, id: string) {
+    const phone = await this.findOne(id);
+    if (!phone)
+      throw new HttpException(
+        `Phone with id ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+
+    const result = await this.cloudinary.uploadImage(file).catch(() => {
+      throw new BadRequestException('Error while uploading image');
+    });
+
+    return await this.findOneAndUpdate(id, {
+      ...phone,
+      imageFileName: result.secure_url,
+    });
   }
 }

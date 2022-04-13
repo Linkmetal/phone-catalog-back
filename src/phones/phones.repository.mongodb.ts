@@ -46,7 +46,7 @@ export class PhoneRepositoryMongoDB implements PhoneRepository {
     if (filters?.maxPrice && filters?.minPrice)
       query.where('price').gte(filters?.minPrice).lte(filters?.maxPrice);
     if (filters?.searchQuery)
-      query.where('name').regex(`^${filters.searchQuery}`);
+      query.where('name').regex(`^(?i)${filters.searchQuery}`);
 
     const results = await query.exec();
 

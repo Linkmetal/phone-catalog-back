@@ -10,6 +10,11 @@ const config = {
       database: process.env.DB_DATABASE || 'develop',
     },
   },
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
+  },
   listeningPort: parseInt(process.env.APP_PORT || '8080', 10),
 };
 
