@@ -2,6 +2,7 @@ import { CreatePhoneDTO } from './dtos/create-phone.dto';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import {
   PhoneEntity,
+  PhoneFilters,
   PhoneRepository,
   PHONE_REPOSITORY_TOKEN,
 } from './phones.repository';
@@ -59,7 +60,7 @@ export class PhonesService {
     return result;
   }
 
-  findAll() {
-    return this.phoneRepository.findAll();
+  findAll(filters?: PhoneFilters) {
+    return this.phoneRepository.findAll(filters);
   }
 }

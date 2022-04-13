@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 
 import { ApiNotFoundResponse, ApiResponse } from '@nestjs/swagger';
@@ -13,6 +14,7 @@ import { CreatePhoneDTO } from './dtos/create-phone.dto';
 import { PhoneDTO, PhoneIdQueryDTO } from './dtos/phone.dto';
 import { PhonesService } from './phones.service';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
+import { PhoneFilters } from 'src/phones/phones.repository';
 
 @Controller('/api/v1/phones')
 export class PhonesController {
@@ -25,8 +27,8 @@ export class PhonesController {
     description: 'List of phones',
   })
   @Get()
-  async getPhoneList() {
-    return (await this.phoneService.findAll()).map((phone) =>
+  async getPhoneList(@Query() query: PhoneFilters) {
+    return (await this.phoneService.findAll(query)).map((phone) =>
       PhoneDTO.fromEntity(phone),
     );
   }

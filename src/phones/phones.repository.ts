@@ -43,6 +43,7 @@ export class PhoneEntity {
 }
 
 export type PhoneFilters = {
+  searchQuery?: string;
   name?: string;
   manufacturer?: string;
   minPrice?: number;
