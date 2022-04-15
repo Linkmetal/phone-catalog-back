@@ -60,6 +60,7 @@ export interface PhoneRepository {
     id: string,
     updatePhoneDto: UpdatePhoneDTO,
   ): Promise<PhoneEntity | null>;
+  findOneAndDelete(id: string): Promise<true | null>;
 }
 
 export const PHONE_REPOSITORY_TOKEN = 'PhoneRepository';

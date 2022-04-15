@@ -46,10 +46,11 @@ export class PhoneRepositoryFake implements PhoneRepository {
     );
   }
 
-  findOne(id: string): Promise<PhoneEntity | null> {
+  async findOne(id: string): Promise<PhoneEntity | null> {
     if (id !== phoneFixture.id) return Promise.resolve(null);
     return Promise.resolve(phoneFixture);
   }
+
   async findAll() {
     return Promise.resolve([{ ...phoneFixture }]);
   }
@@ -59,5 +60,10 @@ export class PhoneRepositoryFake implements PhoneRepository {
       _id: '1',
     });
     return Promise.resolve(result);
+  }
+
+  async findOneAndDelete(id: string): Promise<true | null> {
+    if (id !== phoneFixture.id) return Promise.resolve(null);
+    return Promise.resolve(true);
   }
 }

@@ -49,6 +49,18 @@ export class PhonesService {
     return result;
   }
 
+  async findOneAndDelete(id: string): Promise<true | null> {
+    const result = await this.phoneRepository.findOneAndDelete(id);
+
+    if (!result)
+      throw new HttpException(
+        'Error while deleting phone',
+        HttpStatus.NOT_FOUND,
+      );
+
+    return result;
+  }
+
   async create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity> {
     const duplicatedEntry = await this.findOneByName(createPhoneDto.name);
 

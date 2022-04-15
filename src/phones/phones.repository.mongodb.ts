@@ -76,4 +76,12 @@ export class PhoneRepositoryMongoDB implements PhoneRepository {
       _id: result._id.toString(),
     });
   }
+
+  async findOneAndDelete(id: string): Promise<true | null> {
+    const result = await this.phoneModel.findOneAndDelete({ _id: id }).exec();
+
+    if (!result) return null;
+
+    return true;
+  }
 }

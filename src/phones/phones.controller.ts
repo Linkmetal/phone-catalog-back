@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -92,5 +93,16 @@ export class PhonesController {
     const result = await this.phoneService.findOneAndUpdate(params.id, body);
 
     return PhoneDTO.fromEntity(result);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Delete phone',
+  })
+  @Delete(':id')
+  async deletePhone(@Param() params: PhoneIdQueryDTO) {
+    const result = await this.phoneService.findOneAndDelete(params.id);
+
+    return result;
   }
 }
