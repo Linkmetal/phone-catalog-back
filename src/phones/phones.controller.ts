@@ -32,9 +32,12 @@ export class PhonesController {
   })
   @Get()
   async getPhoneList(@Query() query: PhoneFilters) {
-    return (await this.phoneService.findAll(query)).map((phone) =>
-      PhoneDTO.fromEntity(phone),
-    );
+    const result = await this.phoneService.findAll(query);
+
+    return {
+      data: result.data.map((phone) => PhoneDTO.fromEntity(phone)),
+      pagination: result.pagination,
+    };
   }
 
   @ApiResponse({

@@ -1,4 +1,5 @@
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
+import { PaginatedResponse } from 'src/types/PaginatedResponse';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
 
 export class PhoneEntity {
@@ -43,6 +44,8 @@ export class PhoneEntity {
 }
 
 export type PhoneFilters = {
+  offset: number;
+  pageTake: number;
   searchQuery?: string;
   name?: string;
   manufacturer?: string;
@@ -53,7 +56,7 @@ export type PhoneFilters = {
 
 export interface PhoneRepository {
   create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity>;
-  findAll(filters?: PhoneFilters): Promise<PhoneEntity[]>;
+  findAll(filters?: PhoneFilters): Promise<PaginatedResponse<PhoneEntity[]>>;
   findOne(id: string): Promise<PhoneEntity | null>;
   findOneByName(name: string): Promise<PhoneEntity | null>;
   findOneAndUpdate(

@@ -46,13 +46,24 @@ export class PhoneRepositoryMongoDB implements PhoneRepository {
     if (filters?.maxPrice && filters?.minPrice)
       query.where('price').gte(filters?.minPrice).lte(filters?.maxPrice);
     if (filters?.searchQuery)
-      query.where('name').regex(`^(?i)${filters.searchQuery}`);
-
+      query.where('name').regex(`(?i)${filters.searchQuery}`);
+    const count = await this.phoneModel.countDocuments(query);
+    query.skip(filters.offset);
+    query.limit(filters.pageTake);
     const results = await query.exec();
 
-    return results.map((p) =>
+    const data = results.map((p) =>
       PhoneEntity.fromPrimitives({ ...p.toObject(), _id: p._id.toString() }),
     );
+
+    return {
+      pagination: {
+        offset: filters.offset,
+        pageTake: filters.pageTake,
+        total: count,
+      },
+      data,
+    };
   }
 
   async findOne(id: string): Promise<PhoneEntity | null> {
