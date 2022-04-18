@@ -4,7 +4,9 @@ dotenvConfig();
 const config = {
   db: {
     mongodb: {
+      protocol: process.env.PROTOCOL || 'mongodb://',
       host: process.env.DB_HOST || 'localhost',
+      name: process.env.DB_NAME || 'phone_catalog',
       user: process.env.DB_USER || 'develop',
       password: process.env.DB_PASSWORD || 'password',
       database: process.env.DB_DATABASE || 'develop',
