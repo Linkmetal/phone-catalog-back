@@ -25,7 +25,7 @@ export class UpdatePhoneDTO {
 
   @ApiProperty()
   @IsString()
-  imageFileName: string;
+  imageSrc: string;
 
   @ApiProperty()
   @IsString()

@@ -36,7 +36,7 @@ export class PhoneDTO {
 
   @ApiProperty()
   @Expose()
-  imageFileName: string;
+  imageSrc: string;
 
   @ApiProperty()
   @Expose()

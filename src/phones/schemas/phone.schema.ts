@@ -12,7 +12,7 @@ export const Phone = {
 
   price: Number,
 
-  imageFileName: String,
+  imageSrc: String,
 
   screen: String,
 

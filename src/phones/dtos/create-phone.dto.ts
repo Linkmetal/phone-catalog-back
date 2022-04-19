@@ -24,8 +24,7 @@ export class CreatePhoneDTO {
   price: number;
 
   @ApiProperty()
-  @IsString()
-  imageFileName: string;
+  imageSrc: string;
 
   @ApiProperty()
   @IsString()

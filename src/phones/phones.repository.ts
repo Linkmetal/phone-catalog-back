@@ -10,7 +10,7 @@ export class PhoneEntity {
     readonly description: string,
     readonly color: string,
     readonly price: number,
-    readonly imageFileName: string,
+    readonly imageSrc: string,
     readonly screen: string,
     readonly processor: string,
     readonly ram: string,
@@ -23,7 +23,7 @@ export class PhoneEntity {
     description: string;
     color: string;
     price: number;
-    imageFileName: string;
+    imageSrc: string;
     screen: string;
     processor: string;
     ram: string;
@@ -35,7 +35,7 @@ export class PhoneEntity {
       p.description,
       p.color,
       p.price,
-      p.imageFileName,
+      p.imageSrc,
       p.screen,
       p.processor,
       p.ram,

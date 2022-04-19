@@ -70,6 +70,7 @@ export class PhonesService {
         HttpStatus.BAD_REQUEST,
       );
 
+    createPhoneDto.imageSrc = '';
     const result = await this.phoneRepository.create(createPhoneDto);
     if (!result)
       throw new HttpException(
@@ -98,7 +99,7 @@ export class PhonesService {
 
     return await this.findOneAndUpdate(id, {
       ...phone,
-      imageFileName: result.secure_url,
+      imageSrc: result.secure_url,
     });
   }
 }
