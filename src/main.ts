@@ -5,8 +5,9 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 
 const allowedDomains = [
+  'https://phone-catalog.linkmetal.dev',
   'https://phone-catalog-front.herokuapp.com/',
-  'http://localhost',
+  'http://localhost:3000',
 ];
 
 const options = {
