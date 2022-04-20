@@ -39,7 +39,6 @@ export class PhoneRepositoryMongoDB implements PhoneRepository {
   }
   async findAll(filters: PhoneFilters) {
     const query = this.phoneModel.find();
-    if (filters?.name) query.where('name').equals(filters?.name);
     if (filters?.ram) query.where('ram').equals(filters?.ram);
     if (filters?.manufacturer)
       query.where('manufacturer').equals(filters?.manufacturer);

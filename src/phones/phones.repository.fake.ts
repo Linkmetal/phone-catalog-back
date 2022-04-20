@@ -19,19 +19,19 @@ export const phonesFixture: PhoneEntity[] = [
     imageSrc: 'null',
     screen: '4,7 inch IPS',
     processor: 'A10 Fusion',
-    ram: '2GB',
+    ram: '2 GB',
   },
   {
     id: '6246f580bfca641423e5710f',
     name: 'iPhone 8',
-    manufacturer: 'Apple',
+    manufacturer: 'Xiaomi',
     description: 'lorem ipsum dolor sit amet consectetur.',
     color: 'black',
     price: 1032,
     imageSrc: 'null',
     screen: '5 inch IPS',
     processor: 'A10 Fusion',
-    ram: '2GB',
+    ram: '3 GB',
   },
 ];
 export const phoneFixture = phonesFixture[0];

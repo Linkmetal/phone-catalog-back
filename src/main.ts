@@ -4,9 +4,28 @@ import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 
+const allowedDomains = [
+  'https://phone-catalog-front.herokuapp.com/',
+  'http://localhost',
+];
+
+const options = {
+  origin: function (
+    origin: string,
+    cb: (error: Error | null, origin?: string) => void,
+  ) {
+    if (allowedDomains.includes(origin)) {
+      cb(null, origin);
+    } else {
+      cb(Error('invalid origin'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+};
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors(options);
   app.useGlobalPipes(new ValidationPipe());
   const config = new DocumentBuilder()
     .setTitle('Phone Catalog API')
@@ -17,6 +36,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3001);
+  await app.listen(8080);
 }
 bootstrap();
