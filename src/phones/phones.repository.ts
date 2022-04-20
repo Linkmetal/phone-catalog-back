@@ -1,5 +1,5 @@
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
-import { PaginatedResponse } from 'src/types/PaginatedResponse';
+import { PaginatedResponse } from '../types/PaginatedResponse';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
 
 export class PhoneEntity {
@@ -48,14 +48,14 @@ export type PhoneFilters = {
   pageTake: number;
   searchQuery?: string;
   name?: string;
-  manufacturer?: string;
+  manufacturer?: string[];
   minPrice?: number;
   maxPrice?: number;
-  ram?: string;
+  ram?: string[];
 };
 
 export interface PhoneRepository {
-  create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity>;
+  create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity | null>;
   findAll(filters?: PhoneFilters): Promise<PaginatedResponse<PhoneEntity[]>>;
   findOne(id: string): Promise<PhoneEntity | null>;
   findOneByName(name: string): Promise<PhoneEntity | null>;

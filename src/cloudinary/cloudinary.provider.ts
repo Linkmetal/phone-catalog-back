@@ -1,4 +1,4 @@
-import config from 'src/config';
+import config from '../config';
 import { v2 } from 'cloudinary';
 
 export const CloudinaryProvider = {

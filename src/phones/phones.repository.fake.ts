@@ -5,7 +5,7 @@ import {
 } from './phones.repository';
 
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
-import { PaginatedResponse } from 'src/types/PaginatedResponse';
+import { PaginatedResponse } from '../types/PaginatedResponse';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
 
 export const phonesFixture: PhoneEntity[] = [
@@ -68,11 +68,14 @@ export class PhoneRepositoryFake implements PhoneRepository {
       },
     });
   }
-  async create(createPhoneDto: CreatePhoneDTO) {
+  async create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity | null> {
     const result = PhoneEntity.fromPrimitives({
       ...createPhoneDto,
       _id: '1',
     });
+
+    if (!result) Promise.resolve(null);
+
     return Promise.resolve(result);
   }
 

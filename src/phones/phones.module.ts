@@ -1,6 +1,6 @@
 import { PhoneCollectionName, PhoneSchema } from './schemas/phone.schema';
 
-import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PHONE_REPOSITORY_TOKEN } from './phones.repository';

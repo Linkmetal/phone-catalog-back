@@ -13,7 +13,7 @@ import {
   PHONE_REPOSITORY_TOKEN,
 } from './phones.repository';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
 export class PhonesService {
@@ -28,10 +28,6 @@ export class PhonesService {
     if (!result) throw new HttpException('Not found', HttpStatus.NOT_FOUND);
 
     return result;
-  }
-
-  async findOneByName(name: string): Promise<PhoneEntity | null> {
-    return await this.phoneRepository.findOneByName(name);
   }
 
   async findOneAndUpdate(
@@ -62,7 +58,9 @@ export class PhonesService {
   }
 
   async create(createPhoneDto: CreatePhoneDTO): Promise<PhoneEntity> {
-    const duplicatedEntry = await this.findOneByName(createPhoneDto.name);
+    const duplicatedEntry = await this.phoneRepository.findOneByName(
+      createPhoneDto.name,
+    );
 
     if (duplicatedEntry)
       throw new HttpException(
@@ -86,7 +84,7 @@ export class PhonesService {
   }
 
   async uploadImage(file: Express.Multer.File, id: string) {
-    const phone = await this.findOne(id);
+    const phone = await this.phoneRepository.findOne(id);
     if (!phone)
       throw new HttpException(
         `Phone with id ${id} not found`,
@@ -97,7 +95,7 @@ export class PhonesService {
       throw new BadRequestException('Error while uploading image');
     });
 
-    return await this.findOneAndUpdate(id, {
+    return await this.phoneRepository.findOneAndUpdate(id, {
       ...phone,
       imageSrc: result.secure_url,
     });

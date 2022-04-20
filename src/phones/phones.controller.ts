@@ -17,7 +17,7 @@ import { CreatePhoneDTO } from './dtos/create-phone.dto';
 import { PhoneDTO, PhoneIdQueryDTO } from './dtos/phone.dto';
 import { PhonesService } from './phones.service';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
-import { PhoneFilters } from 'src/phones/phones.repository';
+import { PhoneFilters } from './phones.repository';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('/api/v1/phones')
