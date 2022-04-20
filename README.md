@@ -30,11 +30,28 @@ CLOUDINARY_API_SECRET=
 ## Running the app
 
 ```bash
-# development
+# development without database
 $ yarn dev
 
 # production mode
 $ yarn start:prod
+```
+
+## Running the app with docker compose
+
+```bash
+# .env file
+  PROTOCOL=mongodb://
+  DB_HOST=mongo:27017
+  DB_NAME=/admin
+  DB_USER=admin
+  DB_PASSWORD=password
+
+# build
+$ docker build .
+
+# start container
+$ docker compose up -d
 ```
 
 ## Test
