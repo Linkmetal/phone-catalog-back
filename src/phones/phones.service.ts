@@ -14,6 +14,7 @@ import {
 } from './phones.repository';
 import { UpdatePhoneDTO } from './dtos/update-phone.dto';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { PhoneDTO } from './dtos/phone.dto';
 
 @Injectable()
 export class PhonesService {
@@ -95,9 +96,15 @@ export class PhonesService {
       throw new BadRequestException('Error while uploading image');
     });
 
-    return await this.phoneRepository.findOneAndUpdate(id, {
+    const updatedPhone = await this.phoneRepository.findOneAndUpdate(id, {
       ...phone,
       imageSrc: result.secure_url,
     });
+    if (!updatedPhone)
+      throw new HttpException(
+        `Phone with id ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    return PhoneDTO.fromEntity(updatedPhone);
   }
 }
