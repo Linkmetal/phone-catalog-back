@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { endianness } from 'os';
 
 const allowedDomains = [
   'https://phone-catalog.linkmetal.dev',
@@ -37,6 +38,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(8080);
+  await app.listen(process.env.port || 8080);
 }
 bootstrap();
