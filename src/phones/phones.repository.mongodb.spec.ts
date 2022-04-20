@@ -21,8 +21,8 @@ import { phonesFixture } from './phones.repository.fake';
 
 describe('PhoneRepositoryMongoDB', () => {
   let repository: PhoneRepository;
-  let result1: PhoneEntity | null;
-  let result2: PhoneEntity | null;
+  let result1: PhoneEntity;
+  let result2: PhoneEntity;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
@@ -46,8 +46,11 @@ describe('PhoneRepositoryMongoDB', () => {
     }).compile();
 
     repository = module.get<PhoneRepositoryMongoDB>(PHONE_REPOSITORY_TOKEN);
-    result1 = await repository.create({ ...phonesFixture[0] });
-    result2 = await repository.create({ ...phonesFixture[1] });
+    result1 =
+      (await repository.create({ ...phonesFixture[0] })) || ({} as PhoneEntity);
+
+    result2 =
+      (await repository.create({ ...phonesFixture[1] })) || ({} as PhoneEntity);
   });
 
   afterAll(() => {
@@ -60,10 +63,8 @@ describe('PhoneRepositoryMongoDB', () => {
 
   describe('findOne', () => {
     it('should return phone with given id', async () => {
-      if (result1) {
-        const result = await repository.findOne(result1?.id);
-        expect(result).toEqual(result1);
-      }
+      const result = await repository.findOne(result1?.id);
+      expect(result).toEqual(result1);
     });
 
     it('should return null if the phone doesnt exists', async () => {
@@ -74,10 +75,8 @@ describe('PhoneRepositoryMongoDB', () => {
 
   describe('findOneByName', () => {
     it('should return phone with given name', async () => {
-      if (result1) {
-        const result = await repository.findOneByName(result1?.name);
-        expect(result).toEqual(result1);
-      }
+      const result = await repository.findOneByName(result1?.name);
+      expect(result).toEqual(result1);
     });
 
     it('should return null if the phone doesnt exists', async () => {
@@ -207,17 +206,12 @@ describe('PhoneRepositoryMongoDB', () => {
       ram: 'a',
     };
     it('should update phone with the given id', async () => {
-      if (result1) {
-        const result = await repository.findOneAndUpdate(
-          result1.id,
-          phoneUpdate,
-        );
-        if (!result) return;
-        expect(PhoneDTO.fromEntity(result)).toEqual({
-          ...phoneUpdate,
-          id: result1.id,
-        });
-      }
+      const result = await repository.findOneAndUpdate(result1.id, phoneUpdate);
+      if (!result) return;
+      expect(PhoneDTO.fromEntity(result)).toEqual({
+        ...phoneUpdate,
+        id: result1.id,
+      });
     });
 
     it('should return null if the phone doesnt exists', async () => {
@@ -232,11 +226,9 @@ describe('PhoneRepositoryMongoDB', () => {
 
   describe('findOneAndDelete', () => {
     it('should delete phone', async () => {
-      if (result1) {
-        const result = await repository.findOneAndDelete(result1.id);
-        expect(result).toBeTruthy();
-        expect(await repository.findOne(result1.id)).toBeFalsy();
-      }
+      const result = await repository.findOneAndDelete(result1.id);
+      expect(result).toBeTruthy();
+      expect(await repository.findOne(result1.id)).toBeFalsy();
     });
 
     it('should return null if the phone doesnt exists', async () => {
