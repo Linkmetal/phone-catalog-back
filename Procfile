@@ -1,1 +1,1 @@
-web2:node dist/main.js
+web:node dist/main.js
