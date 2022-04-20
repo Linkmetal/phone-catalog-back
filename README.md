@@ -2,6 +2,8 @@
 
 [Nest](https://github.com/nestjs/nest) application that serves a phone catalog API.
 
+<-- [Trello Board](https://trello.com/b/5BVazCM1/phone-catalog) -->
+
 It uses Typescript, MongoDB with Mongoose as database and Jest for testing
 
 Also it uses [Cloudinary](https://cloudinary.com/) free tier to host the phone images
