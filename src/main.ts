@@ -3,11 +3,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { endianness } from 'os';
 
 const allowedDomains = [
-  'https://phone-catalog.linkmetal.dev',
-  'https://phone-catalog-front.herokuapp.com/',
+  'https://phone-catalog-front.herokuapp.com',
   'http://localhost:3000',
 ];
 
