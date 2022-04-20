@@ -46,14 +46,12 @@ describe('PhoneRepositoryMongoDB', () => {
     }).compile();
 
     repository = module.get<PhoneRepositoryMongoDB>(PHONE_REPOSITORY_TOKEN);
-
     result1 = await repository.create({ ...phonesFixture[0] });
-
     result2 = await repository.create({ ...phonesFixture[1] });
   });
 
-  afterAll(async () => {
-    await closeInMongodConnection();
+  afterAll(() => {
+    closeInMongodConnection();
   });
 
   it('should be defined', () => {
