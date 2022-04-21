@@ -12,7 +12,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { ApiNotFoundResponse, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiNotFoundResponse,
+  ApiParam,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { CreatePhoneDTO } from './dtos/create-phone.dto';
 import { PhoneDTO, PhoneIdQueryDTO } from './dtos/phone.dto';
 import { PhonesService } from './phones.service';
@@ -29,6 +34,47 @@ export class PhonesController {
     type: PhoneDTO,
     isArray: true,
     description: 'List of phones',
+  })
+  @ApiParam({
+    name: 'searchQuery',
+    description: 'String to search by phone name',
+    required: false,
+  })
+  @ApiParam({
+    name: 'manufacturer',
+    description: 'Manufacturer to filter by',
+    enum: ['Apple', 'Xiaomi', 'Samsung'],
+    allowEmptyValue: true,
+    required: false,
+  })
+  @ApiParam({
+    name: 'ram',
+    description: 'Ram to filter by',
+    enum: ['2 GB', '3 GB', '4 GB', '5 GB', '6 GB'],
+    allowEmptyValue: true,
+    required: false,
+  })
+  @ApiParam({
+    name: 'minPrice',
+    description: 'Minimum price range to filter by',
+    required: false,
+    type: 'number',
+  })
+  @ApiParam({
+    name: 'maxPrice',
+    description: 'Maxmimum price range to filter by',
+    required: false,
+    type: 'number',
+  })
+  @ApiParam({
+    name: 'pageTake',
+    description: 'Set the limit of the returned query',
+    type: 'number',
+  })
+  @ApiParam({
+    name: 'offset',
+    description: 'Offset for the results pagination',
+    type: 'number',
   })
   @Get()
   async getPhoneList(@Query() query: PhoneFilters) {
@@ -62,6 +108,9 @@ export class PhonesController {
     type: PhoneDTO,
     description: 'Create phone',
   })
+  @ApiBody({
+    type: CreatePhoneDTO,
+  })
   @Post('')
   async createPhone(@Body() body: CreatePhoneDTO) {
     const result = await this.phoneService.create(body);
@@ -71,7 +120,20 @@ export class PhonesController {
 
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: 'Upload phone immge',
+    type: PhoneDTO,
+    description: 'Upload phone image',
+  })
+  @ApiBody({
+    description: 'Image to upload',
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
   })
   @Post(':id/image')
   @UseInterceptors(FileInterceptor('file'))
@@ -87,6 +149,9 @@ export class PhonesController {
     status: HttpStatus.OK,
     type: PhoneDTO,
     description: 'Update phone',
+  })
+  @ApiBody({
+    type: UpdatePhoneDTO,
   })
   @Put(':id')
   async updatePhone(

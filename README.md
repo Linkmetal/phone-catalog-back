@@ -4,9 +4,13 @@
 
 <-- [Trello Board](https://trello.com/b/5BVazCM1/phone-catalog) -->
 
-It uses Typescript, MongoDB with Mongoose as database and Jest for testing
+It uses Typescript, MongoDB with Mongoose as database, Jest for testing and Swagger for API Docs
 
 Also it uses [Cloudinary](https://cloudinary.com/) free tier to host the phone images
+
+## Swagger
+
+[Api Docs](https://phone-catalog-back.herokuapp.com/docs)
 
 ## Installation
 

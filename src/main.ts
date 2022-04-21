@@ -6,6 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 
 const allowedDomains = [
   'https://phone-catalog-front.herokuapp.com',
+  'https://phone-catalog-back.herokuapp.com',
   'http://localhost:3000',
 ];
 
@@ -14,8 +15,8 @@ const options = {
     origin: string,
     cb: (error: Error | null, origin?: string) => void,
   ) {
-    if (allowedDomains.includes(origin)) {
-      cb(null, origin);
+    cb(null, origin);
+    if (!origin || allowedDomains.includes(origin)) {
     } else {
       cb(Error('invalid origin'));
     }
@@ -34,12 +35,8 @@ async function bootstrap() {
     .addTag('phone')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT || 8080);
-  console.log(
-    '🚀 ~ file: main.ts ~ line 42 ~ bootstrap ~ process.env.PORT',
-    process.env.PORT,
-  );
 }
 bootstrap();
