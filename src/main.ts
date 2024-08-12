@@ -24,7 +24,7 @@ const options = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
 
-export async function bootstrap() {
+async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors(options);
   app.useGlobalPipes(new ValidationPipe());
