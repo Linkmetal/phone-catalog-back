@@ -5,7 +5,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 
 const allowedDomains = [
-  'https://phone-catalog-back.vercel.app',
+  'https://phone-catalog-front.vercel.app',
   'http://localhost:3000',
 ];
 
