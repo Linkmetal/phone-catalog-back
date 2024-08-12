@@ -1,6 +1,6 @@
 {
-  "version":2,
-  "builds":[
+  "version": 2,
+  "builds": [
     {
       "src": "src/main.ts",
       "use": "@vercel/node"
@@ -15,7 +15,11 @@
         "POST",
         "PUT",
         "PATCH",
-        "DELETE"
+        "OPTIONS",
+        "DELETE",
+        "HEAD",
+        "CONNECT",
+        "TRACE"
       ]
     }
   ]
